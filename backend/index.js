@@ -1,9 +1,8 @@
-require('dotenv').config();
-const port = process.env.PORT || 4000;
+const port = 4000;
 const express = require('express');
-mongoose.connect(process.env.DB_URI);
 const app = express();
-const token = jwt.sign(data, process.env.JWT_SECRET);
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const multer =require('multer');
 const path = require('path');
 const cors =require('cors');
@@ -12,13 +11,19 @@ const { type } = require('os');
 
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: '*', // Allow all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+    allowedHeaders: ['Content-Type', 'auth-token']
+}));
+
 
 //Database connection with MogoDB
 
-mongoose.connect("mongodb+srv://muhdhassansuffah:suffah.005@cluster0.tjmx0.mongodb.net/e-commerce");
+mongoose.connect('mongodb+srv://muhdhassansuffah:suffah.005@cluster0.tjmx0.mongodb.net/');
 
 //API Creation 
+
 
 app.get('/',(req,res)=>{
     res.send('Express App is running')
@@ -264,6 +269,12 @@ app.post('/getcartdata', fetchUser, async(req,res)=>{
   let userData = await Users.findOne({_id:req.user.id});
   res.json(userData.cartDAta)
 })
+
+
+
+
+
+
 
 app.listen(port,(error)=>{
     if(!error){

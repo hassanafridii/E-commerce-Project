@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react';
+import React, { useState , useEffect } from 'react';
 import './NewCollections.css'
 import Item from '../Item/Item';
 
@@ -7,11 +7,16 @@ const NewCollections = () => {
 
   const [new_collections,setNew_collection]  = useState([]);
   
-  useEffect(()=>{
+  useEffect(() => {
     fetch('http://localhost:4000/newcollections')
-    .then((response)=>response.json())
-    .then((data)=>setNew_collection(data));
-  },[])
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched Data:", data); // Debugging
+        setNew_collection(data);
+      })
+      .catch((error) => console.error("Error fetching new collections:", error));
+  }, []);
+  
 
   return (
     <div className='new-collections'>
